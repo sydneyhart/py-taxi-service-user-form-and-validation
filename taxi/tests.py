@@ -77,7 +77,12 @@ class DriverWorkflowTests(TestCase):
     def test_delete_confirmation_and_post(self):
         url = reverse("taxi:driver-delete", args=[self.other.pk])
         response = self.client.get(url)
-        self.assertContains(response, self.other.get_absolute_url())
+        self.assertContains(
+            response,
+            f'<a href="{self.other.get_absolute_url()}" '
+            'class="btn btn-secondary">Cancel</a>',
+            html=True,
+        )
         self.assertTrue(
             get_user_model().objects.filter(pk=self.other.pk).exists()
         )
